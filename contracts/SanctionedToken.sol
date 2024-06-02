@@ -4,6 +4,7 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/token/ERC20/ERC20.sol";
 import "@openzeppelin/access/Ownable.sol";
 
+
 contract SanctionedToken is ERC20, Ownable {
     mapping(address => bool) private _blacklist;
 
@@ -11,7 +12,10 @@ contract SanctionedToken is ERC20, Ownable {
     event BlacklistUpdated(address indexed _addr, bool _isBlacklisted);
 
     // Constructor to set the token name and symbol
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) Ownable() {}
+    constructor(string memory name, string memory symbol, address initialOwner) 
+        ERC20(name, symbol) 
+        Ownable(initialOwner) 
+    {}
 
     // Function to add an address to the blacklist
     function addToBlacklist(address _addr) public onlyOwner {
@@ -25,20 +29,20 @@ contract SanctionedToken is ERC20, Ownable {
         emit BlacklistUpdated(_addr, false);
     }
 
-    // Modifier to check if an address is blacklisted
-    modifier notBlacklisted(address _addr) {
-        require(!_blacklist[_addr], "Address is blacklisted");
-        _;
-    }
-
-    // Internal function to check blacklist before any token transfer
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal override(ERC20) {
-        require(!_blacklist[from] && !_blacklist[to], "Address is blacklisted");
-        super._beforeTokenTransfer(from, to, amount);
-    }
-
     // Function to mint tokens for testing
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
+    }
+
+    // Override transfer function to check blacklist before any token transfer
+    function transfer(address recipient, uint256 amount) public override returns (bool) {
+        require(!_blacklist[msg.sender] && !_blacklist[recipient], "Address is blacklisted");
+        return super.transfer(recipient, amount);
+    }
+
+    // Override transferFrom function to check blacklist before any token transfer
+    function transferFrom(address sender, address recipient, uint256 amount) public override returns (bool) {
+        require(!_blacklist[sender] && !_blacklist[recipient], "Address is blacklisted");
+        return super.transferFrom(sender, recipient, amount);
     }
 }
