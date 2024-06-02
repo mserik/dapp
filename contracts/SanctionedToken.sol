@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts@4.8.2/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts@4.8.2/access/Ownable.sol";
+import "@openzeppelin/token/ERC20/ERC20.sol";
+import "@openzeppelin/access/Ownable.sol";
 
 contract SanctionedToken is ERC20, Ownable {
     mapping(address => bool) private _blacklist;
@@ -35,5 +35,10 @@ contract SanctionedToken is ERC20, Ownable {
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal override(ERC20) {
         require(!_blacklist[from] && !_blacklist[to], "Address is blacklisted");
         super._beforeTokenTransfer(from, to, amount);
+    }
+
+    // Function to mint tokens for testing
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
     }
 }

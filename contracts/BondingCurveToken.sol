@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/token/ERC20/ERC20.sol";
 
 contract BondingCurveToken is ERC20 {
     uint256 public constant BASE_PRICE = 1 ether;  // Base price for the first token
