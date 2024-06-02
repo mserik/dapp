@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.25+commit.b61c2a91"
+		"version": "0.8.20+commit.a1b79de6"
 	},
 	"language": "Solidity",
 	"output": {
@@ -120,7 +120,7 @@
 		"compilationTarget": {
 			"contracts/UntrustedEscrow.sol": "UntrustedEscrow"
 		},
-		"evmVersion": "cancun",
+		"evmVersion": "shanghai",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -149,10 +149,11 @@
 			]
 		},
 		"contracts/UntrustedEscrow.sol": {
-			"keccak256": "0x5f54d66cb66f4e4ab49803a8059cd611c9b9da275adb5fa43689ca72801ae357",
+			"keccak256": "0xa125ef975e19a162d6ecad9db6f814e5fef60eec9c1898ef0a9e907f279911d4",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://8de567c4d6e65f8ebdb56b9e3e21cc011899b599816d12a572c1d8f9e0d3640b",
-				"dweb:/ipfs/QmZvPKnup3F4ygkvVXr38ZT3a4h6ThxVk2da5aurXmjpap"
+				"bzz-raw://e7a392212c4c3819438037bca5c9416badf340343f90b3dd9a3265f7333fa45a",
+				"dweb:/ipfs/QmdwrSbcXkjHCdtr66FyogoU4vfBQLbSoUXAwzsYYf4Kyf"
 			]
 		}
 	},
