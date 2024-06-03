@@ -14,18 +14,12 @@ contract SanctionedTokenTest is Test {
         owner = address(this);
         addr1 = address(1);
         addr2 = address(2);
-        token = new SanctionedToken("Sanctioned Token", "STK");
+        token = new SanctionedToken("Sanctioned Token", "STK", owner);
     }
 
     function testDeployment() public {
         assertEq(token.name(), "Sanctioned Token");
         assertEq(token.symbol(), "STK");
-    }
-
-    function testAddToBlacklist() public {
-        token.addToBlacklist(addr1);
-        bool isBlacklisted = token._blacklist(addr1);
-        assertTrue(isBlacklisted);
     }
 
     function testTransferWhileBlacklisted() public {
@@ -40,12 +34,17 @@ contract SanctionedTokenTest is Test {
         token.mint(addr1, 100 ether);
         token.addToBlacklist(addr1);
         token.removeFromBlacklist(addr1);
-        bool isBlacklisted = token._blacklist(addr1);
+        bool isBlacklisted = token.isBlacklisted(addr1);
         assertFalse(isBlacklisted);
 
         vm.prank(addr1);
         token.transfer(addr2, 10 ether);
         assertEq(token.balanceOf(addr2), 10 ether);
+    }
+    function testBlacklist() public {
+        token.addToBlacklist(addr1);
+        bool isBlacklisted = token.isBlacklisted(addr1);
+        assertEq(isBlacklisted, true, "Address should be blacklisted");
     }
 
     function testTransferWithoutBlacklist() public {

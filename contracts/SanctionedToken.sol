@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/token/ERC20/ERC20.sol";
 import "@openzeppelin/access/Ownable.sol";
 
-
+// SanctionedToken.sol
 contract SanctionedToken is ERC20, Ownable {
     mapping(address => bool) private _blacklist;
 
@@ -16,7 +16,9 @@ contract SanctionedToken is ERC20, Ownable {
         ERC20(name, symbol) 
         Ownable(initialOwner) 
     {}
-
+    function isBlacklisted(address _addr) public view returns (bool) {
+        return _blacklist[_addr];
+    }
     // Function to add an address to the blacklist
     function addToBlacklist(address _addr) public onlyOwner {
         _blacklist[_addr] = true;
