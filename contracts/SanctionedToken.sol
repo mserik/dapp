@@ -16,6 +16,7 @@ contract SanctionedToken is ERC20, Ownable {
         ERC20(name, symbol) 
         Ownable(initialOwner) 
     {}
+    // Function isBlacklisted allows anyone to check if a particular address is blacklisted.
     function isBlacklisted(address _addr) public view returns (bool) {
         return _blacklist[_addr];
     }
